@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Essentials;
@@ -12,9 +13,11 @@ namespace WS.ViewModels
         {
             Title = "About";
             OpenWebCommand = new Command(async () => await StartServer());
+            PostWebCommand = new Command(async () => await Post());
         }
 
         public ICommand OpenWebCommand { get; }
+        public ICommand PostWebCommand { get; }
 
         private Task ServerTask;
         private async Task StartServer()
@@ -35,8 +38,16 @@ namespace WS.ViewModels
             {
 
                 throw;
-            }
-            
+            }            
+        }
+
+        private async Task Post()
+        {
+            var client = new HttpClient();
+            var response = await client.PostAsync("http://127.0.0.1:8080/api/test", new StringContent("Hej med dig"));
+            var code = response.StatusCode;
+            var jsonString = await response.Content.ReadAsStringAsync();
+
         }
     }
 }

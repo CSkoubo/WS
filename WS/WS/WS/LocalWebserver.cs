@@ -38,7 +38,7 @@ namespace WS
     public class TestRoute : WebApiController
     {
         [Route(HttpVerbs.Get, "/test")]
-        public string PostMe(WebServer server,
+        public string GetMe(WebServer server,
                             HttpListenerContext context)
         {
             try
@@ -48,6 +48,25 @@ namespace WS
 
                 //return userJson;
                 return "Hello Jesper";
+
+            }
+            catch (Exception ex)
+            {
+                return HandleError(context, ex,
+                                   (int)HttpStatusCode.InternalServerError);
+            }
+        }
+
+        [Route(HttpVerbs.Post, "/test")]
+        public string PostMe(WebServer server,
+                            HttpListenerContext context)
+        {
+            try
+            {
+                StreamReader reader = new StreamReader(context.Request.InputStream);
+                string userJson = reader.ReadToEnd();
+
+                return userJson;
 
             }
             catch (Exception ex)
