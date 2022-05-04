@@ -5,6 +5,8 @@ using Swan.Logging;
 using System;
 using System.IO;
 using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace WS
 {
@@ -37,17 +39,29 @@ namespace WS
 
     public class TestRoute : WebApiController
     {
-        [Route(HttpVerbs.Get, "/test")]
-        public string GetMe(WebServer server,
+        [Route(HttpVerbs.Get, "/test/{address?}")]
+        public async Task<string> GetMe(string address)
+        {
+            var client = new HttpClient();
+            try
+            {
+
+                var response = await client.GetStringAsync("http://" + address + ":8080/api/configurator");
+                return address + response;
+            }
+            catch (Exception exe)
+            {
+                return exe.Message;
+            }
+        }
+
+        [Route(HttpVerbs.Get, "/configurator")]
+        public string GetConfigurator(WebServer server,
                             HttpListenerContext context)
         {
             try
             {
-                //StreamReader reader = new StreamReader(context.Request.InputStream);
-                //string userJson = reader.ReadToEnd();
-
-                //return userJson;
-                return "Hello Jesper";
+                return "Awesome config";
 
             }
             catch (Exception ex)

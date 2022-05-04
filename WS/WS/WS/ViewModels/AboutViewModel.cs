@@ -26,7 +26,7 @@ namespace WS.ViewModels
                 return;
 
             // Prefixing with `//` switches to a different navigation stack instead of pushing to the active one
-            var server = LocalWebserver.CreateWebServer("http://127.0.0.1:8080");
+            var server = LocalWebserver.CreateWebServer("http://192.168.121.103:8080");
             
             ServerTask = server.RunAsync();
             try
