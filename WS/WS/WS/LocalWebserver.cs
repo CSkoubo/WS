@@ -37,16 +37,17 @@ namespace WS
 
     public class TestRoute : WebApiController
     {
-        [Route(HttpVerbs.Post, "/test")]
+        [Route(HttpVerbs.Get, "/test")]
         public string PostMe(WebServer server,
                             HttpListenerContext context)
         {
             try
             {
-                StreamReader reader = new StreamReader(context.Request.InputStream);
-                string userJson = reader.ReadToEnd();
+                //StreamReader reader = new StreamReader(context.Request.InputStream);
+                //string userJson = reader.ReadToEnd();
 
-                return userJson;
+                //return userJson;
+                return "Hello Jesper";
 
             }
             catch (Exception ex)

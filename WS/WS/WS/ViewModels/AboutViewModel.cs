@@ -21,22 +21,22 @@ namespace WS.ViewModels
         {
             if (ServerTask != null)
                 return;
-            
+
             // Prefixing with `//` switches to a different navigation stack instead of pushing to the active one
-            using (var server = LocalWebserver.CreateWebServer("http://127.0.0.1:8080"))
+            var server = LocalWebserver.CreateWebServer("http://127.0.0.1:8080");
+            
+            ServerTask = server.RunAsync();
+            try
             {
-                ServerTask = server.RunAsync();
-                try
-                {
 
-                    await ServerTask.ConfigureAwait(false);
-                }
-                catch (Exception ex)
-                {
-
-                    throw;
-                }
+                await ServerTask.ConfigureAwait(false);
             }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            
         }
     }
 }
