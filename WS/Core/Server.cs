@@ -32,11 +32,23 @@ namespace Core
 
         }
 
+        public static string getCurrentIP()
+        {
+            var host = Dns.GetHostName();
+            IPHostEntry hostEntry = Dns.GetHostEntry(host);
+            if (hostEntry.AddressList.Length > 0)
+            {
+                //logDelegate("Current IP : " + hostEntry.AddressList[0].ToString());
+                return hostEntry.AddressList[0].ToString();
+            }
+            return "";
+        }
         public void Start()
         {
             try
             {
-                this.listener = new TcpListener(IPAddress.Any, this.port);
+                Debug.WriteLine(getCurrentIP());
+                this.listener = new TcpListener(IPAddress.Parse(getCurrentIP()), this.port);
                 this.listener.Start();
                 _ = Task.Run(async () =>
                 {

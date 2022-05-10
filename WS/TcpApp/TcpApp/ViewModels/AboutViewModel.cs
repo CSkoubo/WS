@@ -17,7 +17,7 @@ namespace TcpApp.ViewModels
 
         public ICommand OpenWebCommand { get; }
 
-        private async Task Start()
+        private Task Start()
         {
             DataClass receivedDataClass = null;
             using (var dataReceived = new ManualResetEventSlim())
@@ -40,6 +40,7 @@ namespace TcpApp.ViewModels
                 }
                 dataReceived.Wait();
             }
+            return Task.CompletedTask;
         }
     }
 }
